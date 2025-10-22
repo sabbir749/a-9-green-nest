@@ -1,0 +1,83 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { Link } from 'react-router';
+import { auth } from '../firebase/firebase.config';
+
+const Register = () => {
+
+    const [error, setError] = useState('')
+    const [show, setShow] = useState(false)
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value
+        const password = e.target.password.value
+
+        // if (password.length < 6) {
+        //     console.log('wrong password');
+
+        // }
+
+        const regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!regExp.test(password)) {
+            setError("Password must be at least 8 characters and include one uppercase, one lowercase, one number, and one special character (@$!%*?&)."
+            );
+            return
+        }
+
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(res => {
+                console.log(res);
+            })
+            .catch((e) => {
+                console.log(e.code);
+                if (e.code == 'auth/email-already-in-use') {
+                    setError('User Already Exist.')
+                }
+
+            })
+
+    }
+
+    return (
+        <div className="card bg-base-100 mx-auto w-full max-w-sm shrink-0 shadow-2xl my-10">
+            <form onSubmit={handleSignUp} className="card-body">
+                <h1 className="text-4xl mb-3 font-bold text-center">Register now!</h1>
+                <fieldset className="fieldset">
+                    <label className="label">Email</label>
+                    <input type="email" name='email' required className="input w-full" placeholder="Email" />
+               
+                    <label className="label">Password</label>
+                    <div className='relative'>
+                        <input
+                            type={show ? 'text' : "password"}
+                            name='password'
+                            required className="input w-full" placeholder="Password" />
+                        <span onClick={() => setShow(!show)} className='absolute right-[12px] top-[12px] z-50 cursor-pointer text-lg'>
+                            {show ? <FaEye /> : <FaEyeSlash />}
+                        </span>
+                    </div>
+                    <div><a className="link link-hover">Forgot password?</a></div>
+                    <p className='text-red-600 w-full text-sm'>{error}</p>
+                    <button className="btn btn-neutral mt-4">Register</button>
+                    <div className='flex items-center justify-center gap-2 my-2'>
+                        <div className='h-px w-19 bg-white/30'></div>
+                        <span className='text-sm text-white/70'>or</span>
+                        <div className='h-px w-19 bg-white/30'></div>
+
+                    </div>
+                    <button className='flex bg-white text-black gap-0 justify-center px-20 items-center btn'>
+                        <p><FcGoogle size={`20px`} /></p> <p>Continue with Google</p>
+                    </button>
+                    <p className='text-center mt-2'>Already have an account? <Link className='hover:underline text-blue-500 font-bold' to='/login'>Login</Link></p>
+                </fieldset>
+            </form>
+        </div>
+    );
+};
+
+export default Register;
