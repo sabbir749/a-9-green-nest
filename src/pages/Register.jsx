@@ -1,14 +1,17 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router';
 import { auth } from '../firebase/firebase.config';
 
+const googleProvider = new GoogleAuthProvider()
+
 const Register = () => {
 
     const [error, setError] = useState('')
     const [show, setShow] = useState(false)
+  
 
     const handleSignUp = (e) => {
         e.preventDefault();
@@ -38,9 +41,18 @@ const Register = () => {
                 if (e.code == 'auth/email-already-in-use') {
                     setError('User Already Exist.')
                 }
-
             })
+    }
 
+    const handleGoogleSignIn = () => {
+        signInWithPopup(auth, googleProvider)
+            .then(res => {
+                console.log(res);
+              
+            })
+            .catch(e => {
+                console.log(e);
+            })
     }
 
     return (
@@ -50,7 +62,7 @@ const Register = () => {
                 <fieldset className="fieldset">
                     <label className="label">Email</label>
                     <input type="email" name='email' required className="input w-full" placeholder="Email" />
-               
+
                     <label className="label">Password</label>
                     <div className='relative'>
                         <input
@@ -63,19 +75,19 @@ const Register = () => {
                     </div>
                     <div><a className="link link-hover">Forgot password?</a></div>
                     <p className='text-red-600 w-full text-sm'>{error}</p>
-                    <button className="btn btn-neutral mt-4">Register</button>
-                    <div className='flex items-center justify-center gap-2 my-2'>
-                        <div className='h-px w-19 bg-white/30'></div>
-                        <span className='text-sm text-white/70'>or</span>
-                        <div className='h-px w-19 bg-white/30'></div>
+                    <button className="btn btn-neutral mt-4 -mb-4">Register</button>
 
-                    </div>
-                    <button className='flex bg-white text-black gap-0 justify-center px-20 items-center btn'>
-                        <p><FcGoogle size={`20px`} /></p> <p>Continue with Google</p>
-                    </button>
-                    <p className='text-center mt-2'>Already have an account? <Link className='hover:underline text-blue-500 font-bold' to='/login'>Login</Link></p>
                 </fieldset>
             </form>
+            <div className='flex items-center justify-center gap-2 mb-3'>
+                <div className='h-px w-19 bg-white/30'></div>
+                <span className='text-sm text-white/70'>or</span>
+                <div className='h-px w-19 bg-white/30'></div>
+            </div>
+            <button onClick={handleGoogleSignIn} className='flex bg-white text-black w-[88%] mx-auto gap-1.5 justify-center px-20 items-center btn'>
+                <p><FcGoogle size={`20px`} /></p> <p>Continue with Google</p>
+            </button>
+            <p className='text-center mt-3 text-sm pb-5'>Already have an account? <Link className='hover:underline text-blue-500 font-bold' to='/login'>Login</Link></p>
         </div>
     );
 };

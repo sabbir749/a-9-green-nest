@@ -76,18 +76,18 @@ const Login = () => {
                         </div>
                         <div><a className="link link-hover">Forgot password?</a></div>
                         <button className="btn btn-neutral mt-4">Login</button>
-                        <div className='flex items-center justify-center gap-2 my-2'>
-                            <div className='h-px w-19 bg-white/30'></div>
-                            <span className='text-sm text-white/70'>or</span>
-                            <div className='h-px w-19 bg-white/30'></div>
 
-                        </div>
-                        <button onClick={handleGoogleSignIn} className='flex bg-white text-black gap-0 justify-center px-20 items-center btn'>
-                            <p><FcGoogle size={`20px`} /></p> <p>Continue with Google</p>
-                        </button>
-                        <p className='text-center mt-2'>Don't have an account? <Link className='underline text-blue-500 font-bold' to='/register'>Register</Link></p>
                     </fieldset>
                 </form>}
+            <div className='flex items-center justify-center gap-2 mb-3.5 -mt-4'>
+                <div className='h-px w-19 bg-white/30'></div>
+                <span className='text-sm text-white/70'>or</span>
+                <div className='h-px w-19 bg-white/30'></div>
+            </div>
+            <button onClick={handleGoogleSignIn} className='flex bg-white  w-[88%] mx-auto gap-1.5  text-black justify-center px-20 items-center btn'>
+                <p><FcGoogle size={`20px`} /></p> <p>Continue with Google</p>
+            </button>
+            <p className='text-center mt-3 text-sm pb-5'>Don't have an account? <Link className='underline text-blue-500 font-bold' to='/register'>Register</Link></p>
         </div>
 
     );
