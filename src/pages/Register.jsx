@@ -1,9 +1,10 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail, signInWithPopup, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router';
 import { auth } from '../firebase/firebase.config';
+import { toast } from 'react-toastify';
 
 const googleProvider = new GoogleAuthProvider()
 
@@ -11,35 +12,42 @@ const Register = () => {
 
     const [error, setError] = useState('')
     const [show, setShow] = useState(false)
-  
+
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        const name = e.target.name.value
+        const displayName = e.target.name.value
         const photoURL = e.target.photoURL.value
         const email = e.target.email.value
         const password = e.target.password.value
 
-        console.log(name,photoURL,password);
-        
+        console.log(name, photoURL, password);
+
 
         // if (password.length < 6) {
         //     console.log('wrong password');
 
         // }
 
-        const regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const regex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
 
-        if (!regExp.test(password)) {
-            setError("Password must be at least 8 characters and include one uppercase, one lowercase, one number, and one special character (@$!%*?&)."
-            );
-            return
+        if (!regex.test(password)) {
+            setError("Password must contain at least one uppercase, one lowercase letter, and be at least 6 characters long.");
         }
+
 
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(res => {
-                console.log(res);
+                updateProfile(res.user, {
+                    displayName,
+                    photoURL,
+                }).then(res => {
+                    console.log(res);
+                })
+                    .catch((e) => {
+                        toast.error(e.message)
+                    })
             })
             .catch((e) => {
                 console.log(e.code);
@@ -53,11 +61,15 @@ const Register = () => {
         signInWithPopup(auth, googleProvider)
             .then(res => {
                 console.log(res);
-              
+
             })
             .catch(e => {
                 console.log(e);
             })
+    };
+
+    const handleForgetPass=()=>{
+       sendPasswordResetEmail(auth,email) 
     }
 
     return (
@@ -82,7 +94,7 @@ const Register = () => {
                             {show ? <FaEye /> : <FaEyeSlash />}
                         </span>
                     </div>
-                    <div><a className="link link-hover">Forgot password?</a></div>
+                    <button onClick={handleForgetPass}><a className="link link-hover">Forgot password?</a></button>
                     <p className='text-red-600 w-full text-sm'>{error}</p>
                     <button className="btn btn-neutral mt-4 -mb-4">Register</button>
 
