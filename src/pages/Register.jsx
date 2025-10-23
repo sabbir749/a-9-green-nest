@@ -15,8 +15,13 @@ const Register = () => {
 
     const handleSignUp = (e) => {
         e.preventDefault();
+        const name = e.target.name.value
+        const photoURL = e.target.photoURL.value
         const email = e.target.email.value
         const password = e.target.password.value
+
+        console.log(name,photoURL,password);
+        
 
         // if (password.length < 6) {
         //     console.log('wrong password');
@@ -60,6 +65,10 @@ const Register = () => {
             <form onSubmit={handleSignUp} className="card-body">
                 <h1 className="text-4xl mb-3 font-bold text-center">Register now!</h1>
                 <fieldset className="fieldset">
+                    <label className="label">Name</label>
+                    <input type="text" name='name' required className="input w-full" placeholder="Name" />
+                    <label className="label">PhotoURL</label>
+                    <input type="text" name='photoURL' required className="input w-full" placeholder="PhotoURL" />
                     <label className="label">Email</label>
                     <input type="email" name='email' required className="input w-full" placeholder="Email" />
 
