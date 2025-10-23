@@ -29,10 +29,11 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1">
                         <li><NavLink to={`/`}>Home</NavLink></li>
                         <li><NavLink to={`/plants`}>Plants</NavLink></li>
-                        <li><NavLink to={`/profile`}>My Profile</NavLink></li>
+                        <li><NavLink to={`/profile`}>My Profile </NavLink></li>
                     </ul>
                 </div>
-                <div className="navbar-end">
+
+                <div  className="navbar-end">
                     <Link to='/login' className="btn bg-green-700 px-7">Login</Link>
                 </div>
             </div>
