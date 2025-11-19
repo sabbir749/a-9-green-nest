@@ -36,7 +36,9 @@ Authentication: Firebase, JWT
 
 Deployment: netlify
 
+# Screenshot
 
+<img src="/green-nest.png" alt="Banner image">
 
 
 ## Contact 📬
