@@ -45,3 +45,28 @@ Deployment: netlify
 
 Sabbir Hossain - [@sabbir hossain](https://www.linkedin.com/in/sabbir-hossain-07960520a/) - sabbir213924@gmail.com  
 
+
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/jira-clone.git
+   cd jira-clone
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000) to start using the app.
+
+---
+
